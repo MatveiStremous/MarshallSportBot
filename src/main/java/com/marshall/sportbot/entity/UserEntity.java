@@ -1,5 +1,6 @@
 package com.marshall.sportbot.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,11 +18,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
     @Id
     private Long userId;
 
+    @Column(nullable = false)
     private String chatId;
 
     private String userName;
@@ -30,11 +32,19 @@ public class UserEntity {
 
     private String lastName;
 
-    private Boolean shouldSendNotifications;
+    private Boolean shouldSendPushUpNotifications = false;
 
-    private Long dayGoal;
+    private Boolean shouldSendPullUpNotifications = false;
 
-    private Long weekGoal;
+    private Integer pushUpDayGoal;
 
-    private Long monthGoal;
+    private Integer pushUpWeekGoal;
+
+    private Integer pushUpMonthGoal;
+
+    private Integer pullUpDayGoal;
+
+    private Integer pullUpWeekGoal;
+
+    private Integer pullUpMonthGoal;
 }
