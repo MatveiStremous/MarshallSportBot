@@ -3,16 +3,10 @@ package com.marshall.sportbot.service;
 import com.marshall.sportbot.entity.ExerciseEntity;
 import com.marshall.sportbot.entity.UserEntity;
 import com.marshall.sportbot.enums.ExerciseType;
-import com.marshall.sportbot.enums.UserState;
-import com.marshall.sportbot.exception.BusinessException;
 import com.marshall.sportbot.repository.ExerciseRepository;
-import com.marshall.sportbot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
