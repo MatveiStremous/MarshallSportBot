@@ -117,7 +117,6 @@ public class UpdateController {
                         }
                     }
                 }
-
             }
         }
     }
@@ -125,8 +124,8 @@ public class UpdateController {
     private void processCallBackQuery(Update update) {
         String chatId = update.getCallbackQuery().getMessage().getChatId().toString();
         Long userId = update.getCallbackQuery().getFrom().getId();
-        UserEntity userEntity = userService.getUser(update.getCallbackQuery().getMessage().getFrom(), chatId);
-
+        UserEntity userEntity = userService.getUser(update.getCallbackQuery().getFrom(), chatId);
+        userStateMap.remove(userId);
         Command enumCommand = getCommandFromData(update.getCallbackQuery().getData());
         if (enumCommand != null) {
             switch (enumCommand) {

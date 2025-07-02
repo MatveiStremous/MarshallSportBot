@@ -57,14 +57,14 @@ public class MenuUtil {
 
     public SendMessage getPushUpGoalMenu(String chatId) {
         List<InlineKeyboardButton> buttons = new ArrayList<>();
-        buttons.add(createButton("Установить дневную цель отжиманий", Command.SET_DAY_PUSH_UP_GOAL.toString()));
-        buttons.add(createButton("Установить недельную цель отжиманий", Command.SET_WEEK_PUSH_UP_GOAL.toString()));
-        buttons.add(createButton("Установить месячную цель отжиманий", Command.SET_MONTH_PUSH_UP_GOAL.toString()));
+        buttons.add(createButton("На день", Command.SET_DAY_PUSH_UP_GOAL.toString()));
+        buttons.add(createButton("На неделю", Command.SET_WEEK_PUSH_UP_GOAL.toString()));
+        buttons.add(createButton("На месяц", Command.SET_MONTH_PUSH_UP_GOAL.toString()));
         buttons.add(createButton("Назад", Command.SEND_PUSH_UP_MENU.toString()));
 
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
-        message.setText("Выберите дальнейшее действие:");
+        message.setText("Вы можете установить/поменять свои цели отжиманий:");
         message.setReplyMarkup(groupButtons(buttons));
         return message;
     }
@@ -90,24 +90,5 @@ public class MenuUtil {
         button.setText(text);
         button.setCallbackData(callbackData);
         return button;
-    }
-
-    private void sendGoalKeyboard(String chatId, String text) {
-        SendMessage message = new SendMessage(chatId, text);
-
-        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-        keyboardMarkup.setResizeKeyboard(true);
-
-        KeyboardRow row1 = new KeyboardRow();
-        row1.add("Установить дневную цель отжиманий");
-        row1.add("Установить недельную цель отжиманий");
-
-        KeyboardRow row2 = new KeyboardRow();
-        row2.add("Установить месячную цель отжиманий");
-        row2.add("Назад");
-
-        keyboardMarkup.setKeyboard(List.of(row1, row2));
-        message.setReplyMarkup(keyboardMarkup);
-
     }
 }
