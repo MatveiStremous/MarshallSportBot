@@ -1,6 +1,6 @@
 package com.marshall.sportbot;
 
-import com.marshall.sportbot.controller.SportBotController;
+import com.marshall.sportbot.controller.SportBot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @EnableScheduling
 public class MarshallSportBotApplication implements CommandLineRunner {
 
-    private final SportBotController botController;
+    private final SportBot botController;
 
     public static void main(String[] args) {
         SpringApplication.run(MarshallSportBotApplication.class, args);
