@@ -157,11 +157,15 @@ public class UpdateController {
                 }
                 case SET_WEEK_PUSH_UP_GOAL -> {
                     sendMessage(new SendMessage(chatId, "Введите цель отжиманий на неделю:"));
-                    userStateMap.put(userId, UserState.WAITING_PUSH_UP_DAY_GOAL);
+                    userStateMap.put(userId, UserState.WAITING_PUSH_UP_WEEK_GOAL);
                 }
                 case SET_MONTH_PUSH_UP_GOAL -> {
                     sendMessage(new SendMessage(chatId, "Введите цель отжиманий на месяц:"));
-                    userStateMap.put(userId, UserState.WAITING_PUSH_UP_DAY_GOAL);
+                    userStateMap.put(userId, UserState.WAITING_PUSH_UP_MONTH_GOAL);
+                }
+                case SWITCH_PUSH_UP_NOTIFICATION -> {
+                    sendMessage(new SendMessage(chatId, userService.switchNotification(userEntity, ExerciseType.PUSH_UP)));
+                    sendMessage(MenuUtil.getPushUpMenu(chatId));
                 }
                 default -> {
                     sendMessage(getDevMessage(chatId));

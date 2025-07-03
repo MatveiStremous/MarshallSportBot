@@ -4,9 +4,7 @@ import com.marshall.sportbot.enums.Command;
 import lombok.experimental.UtilityClass;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class MenuUtil {
         buttons.add(createButton("Добавить подход", Command.SEND_PUSH_UP_ADD_MESSAGE.toString()));
         buttons.add(createButton("Статистика", Command.SEND_PUSH_UP_STATS_MESSAGE.toString()));
         buttons.add(createButton("Мои цели", Command.SEND_PUSH_UP_GOAL_MENU.toString()));
+        buttons.add(createButton("Напоминания", Command.SWITCH_PUSH_UP_NOTIFICATION.toString()));
         buttons.add(createButton("Назад", Command.SEND_START_MENU.toString()));
 
         SendMessage message = new SendMessage();
