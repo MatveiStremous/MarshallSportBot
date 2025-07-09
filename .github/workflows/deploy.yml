@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/your-repo-name
+            cd MarshallSportBot
             git pull origin main
             docker compose build bot
             docker compose up -d bot
