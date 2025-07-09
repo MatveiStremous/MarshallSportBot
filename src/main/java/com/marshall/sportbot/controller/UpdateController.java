@@ -140,6 +140,7 @@ public class UpdateController {
                     sendMessage(MenuUtil.getStartMenu(chatId));
                 }
                 case SEND_PUSH_UP_GOAL_MENU -> {
+                    sendMessage(new SendMessage(chatId, userService.getGoalsMessage(userEntity, ExerciseType.PUSH_UP)));
                     sendMessage(MenuUtil.getPushUpGoalMenu(chatId));
                 }
                 case SEND_PUSH_UP_STATS_MESSAGE -> {
