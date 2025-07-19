@@ -24,3 +24,5 @@ jobs:
             git pull origin main
             docker compose build bot
             docker compose up -d bot
+            docker container prune -f
+            docker image prune -f

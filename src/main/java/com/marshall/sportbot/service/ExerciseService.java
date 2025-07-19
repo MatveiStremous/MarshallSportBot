@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +44,79 @@ public class ExerciseService {
         return String.join("\n", result);
     }
 
+    public String getExerciseStatsMessage(UserEntity user, ExerciseType type) {
+        List<ExerciseEntity> allUserExercises = exerciseRepository.findAllFromTime(
+                user.getUserId(), type, ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 0, ZonedDateTime.now().getZone())
+        );
+
+        if (allUserExercises.isEmpty()) {
+            return "У вас пока нет данных по упражнению: " + type.getDisplayName();
+        }
+
+        int totalCount = allUserExercises.stream()
+                .mapToInt(e -> e.getCount() != null ? e.getCount() : 0)
+                .sum();
+
+        int maxReps = allUserExercises.stream()
+                .mapToInt(e -> e.getCount() != null ? e.getCount() : 0)
+                .max()
+                .orElse(0);
+
+        Map<ZonedDateTime, Integer> dailyTotals = allUserExercises.stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getDateTime().toLocalDate().atStartOfDay(e.getDateTime().getZone()),
+                        Collectors.summingInt(e -> e.getCount() != null ? e.getCount() : 0)
+                ));
+
+        var bestDayEntry = dailyTotals.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElse(null);
+
+        Map<ZonedDateTime, Integer> weeklyTotals = allUserExercises.stream()
+                .collect(Collectors.groupingBy(
+                        e -> Helper.getStartOfWeek(e.getDateTime()),
+                        Collectors.summingInt(e -> e.getCount() != null ? e.getCount() : 0)
+                ));
+
+        var bestWeekEntry = weeklyTotals.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .orElse(null);
+
+        List<ExerciseEntity> recentExercises = getWeekExercises(user, type);
+        int todayCount = countSince(recentExercises, Helper.getStartOfDay());
+        int weekCount = countSince(recentExercises, Helper.getStartOfWeek());
+
+        StringBuilder result = new StringBuilder();
+        result.append("📊 *Статистика ваших ").append(type.getDisplayName()).append("*\n\n");
+        result.append("• Всего повторений: ").append(totalCount).append("\n");
+        result.append("• Максимум за подход: ").append(maxReps).append("\n");
+
+        if (bestDayEntry != null) {
+            result.append("• Лучший день: ")
+                    .append(bestDayEntry.getValue())
+                    .append(" (")
+                    .append(bestDayEntry.getKey().toLocalDate())
+                    .append(")\n");
+        }
+
+        if (bestWeekEntry != null) {
+            result.append("• Лучшая неделя: ")
+                    .append(bestWeekEntry.getValue())
+                    .append(" (")
+                    .append(bestWeekEntry.getKey().toLocalDate())
+                    .append(" - ")
+                    .append(bestWeekEntry.getKey().plusDays(6).toLocalDate())
+                    .append(")\n");
+        }
+
+        result.append("\n📆 *Текущая статистика*\n");
+        result.append("• За сегодня: ").append(todayCount).append("\n");
+        result.append("• За неделю: ").append(weekCount).append("\n");
+
+        return result.toString();
+    }
+
+
     public String addExercise(UserEntity userEntity, ExerciseType exerciseType, int count) {
         ExerciseEntity exerciseEntity = ExerciseEntity.builder()
                 .userId(userEntity.getUserId())
@@ -50,7 +125,7 @@ public class ExerciseService {
                 .exerciseType(exerciseType)
                 .build();
         exerciseEntity = exerciseRepository.save(exerciseEntity);
-        return "Ваш подход сохранён под номером " + exerciseEntity.getId();
+        return "Ваш подход сохранён под номером " + exerciseEntity.getId() + ". Зафиксировано отжиманий: " + count;
     }
 
     private int getDayGoal(UserEntity user, ExerciseType type) {

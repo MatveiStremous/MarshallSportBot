@@ -74,6 +74,8 @@ public class UpdateController {
                             int count = Helper.parseCount(text);
                             String answerText = exerciseService.addExercise(userEntity, ExerciseType.PUSH_UP, count);
                             sendMessage(new SendMessage(chatId, answerText));
+                            String progressMessage = exerciseService.getExerciseProgressMessage(userEntity, ExerciseType.PUSH_UP);
+                            sendMessage(new SendMessage(chatId, progressMessage));
                             sendMessage(MenuUtil.getPushUpMenu(chatId));
                             userStateMap.remove(userId);
                         } catch (NumberFormatException e) {
@@ -144,7 +146,7 @@ public class UpdateController {
                     sendMessage(MenuUtil.getPushUpGoalMenu(chatId));
                 }
                 case SEND_PUSH_UP_STATS_MESSAGE -> {
-                    String progressMessage = exerciseService.getExerciseProgressMessage(userEntity, ExerciseType.PUSH_UP);
+                    String progressMessage = exerciseService.getExerciseStatsMessage(userEntity, ExerciseType.PUSH_UP);
                     sendMessage(new SendMessage(chatId, progressMessage));
                     sendMessage(MenuUtil.getPushUpMenu(chatId));
                 }

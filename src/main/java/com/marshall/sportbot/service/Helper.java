@@ -15,7 +15,10 @@ public class Helper {
     }
 
     public ZonedDateTime getStartOfWeek() {
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        return getStartOfWeek(ZonedDateTime.now(ZoneId.systemDefault()));
+    }
+
+    public ZonedDateTime getStartOfWeek(ZonedDateTime now) {
         ZonedDateTime start = now.withHour(3).withMinute(0).withSecond(0).withNano(0);
         DayOfWeek currentDay = now.getDayOfWeek();
 

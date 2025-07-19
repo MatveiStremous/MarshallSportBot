@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.marshall</groupId>
     <artifactId>SportBot</artifactId>
-    <version>1.6</version>
+    <version>1.7</version>
     <name>MarshallSportBot</name>
     <description>MarshallSport Telegram Bot</description>
 
